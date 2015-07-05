@@ -70,7 +70,7 @@ void loop()
   // Now convert to centimetres. We're metric here people...
   distance = int(pulseduration/29);
   
-  // Display on serial monitor (not required, but handy for handy for calibration).
+  // Display on serial monitor (not required, but handy for calibration).
   Serial.print("Distance - ");
   Serial.print(distance);
   Serial.println(" cm");  
@@ -81,7 +81,7 @@ void loop()
     forward(100);
   } else { // If distance is less than 30cm then reverse up and turn away.
     backward(500);
-    right(180);
+    left(180);
   }
   
   delay(50); 
