@@ -1,16 +1,21 @@
-int signalT=2;
-int signalB=3;
-int signalL=4;
-int signalR=5;
-int signalC=6;
+//Signal inputs from Ping sensors.
+int signalT=2; //Top
+int signalB=3; //Bottom
+int signalL=4; //Left
+int signalR=5; //Right
+int signalC=6; //Centre (unused)
 
+//Relay channel outputs.
 int relayC1 = 7; //Up
 int relayC2 = 8; //Down
 int relayC3 = 9; //Left
 int relayC4 = 10; //Right
-int relayC5 = 11; //Forward
-int relayC6 = 12; //Reverse
 
+//Unused relay channel outputs, second relay board required.
+int relayC5 = 11; //Arm moving forward 
+int relayC6 = 12; //Arm moving backward
+
+//Ping sensor distance variables.
 int distance;
 int distanceT;
 int distanceB;
@@ -19,7 +24,7 @@ int distanceR;
 unsigned long pulseduration=0;
 
 void setup() {
-  // Set all used pin modes to output (initial Ping state and relays).
+  // Set all used pin modes to output (initial Ping state and relay channels).
   int pp;
   for(pp=2; pp<=12; pp++) {
       pinMode(pp, OUTPUT);
@@ -76,26 +81,28 @@ void loop() {
   measureDistance(signalL);
   measureDistance(signalR);
 
+  //Control vertical direction of arm.
   if((distanceT<15) && distanceT != distanceB) {
-    digitalWrite(relayC1, HIGH);
+    digitalWrite(relayC1, HIGH); //Move arm up
   } else {
     digitalWrite(relayC1, LOW);
   }
-
+  
   if((distanceB<15) && distanceB != distanceT) {
-    digitalWrite(relayC2, HIGH);
+    digitalWrite(relayC2, HIGH); //Move arm down
   } else {
     digitalWrite(relayC2, LOW);
   }
 
+  //Control horizontal rotation of arm.
   if((distanceL<15) && distanceL != distanceR) {
-    digitalWrite(relayC3, HIGH);
+    digitalWrite(relayC3, HIGH); //Turn arm left
   } else {
     digitalWrite(relayC3, LOW);
   }
 
   if((distanceR<15) && distanceL != distanceR) {
-    digitalWrite(relayC4, HIGH);
+    digitalWrite(relayC4, HIGH); //Turn arm right
   } else {
     digitalWrite(relayC4, LOW);
   }
